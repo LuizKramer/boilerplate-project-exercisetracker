@@ -39,6 +39,7 @@ app.post('/api/users/:id/exercises', async (req, res) => {
       message: "Deu Ruim"
     })
   }
+
   return res.json({
     _id: updatedUser._id,
     username: updatedUser.username,
@@ -52,6 +53,19 @@ app.get('/api/users', async (req, res) =>{
   let allUsers = await User.getAllUsers();
   return res.json(allUsers);
 })
+
+
+app.get('/api/users/:_id/logs', async (req, res) => {
+  
+  let user = await User.findById(req.params._id);
+  return res.json({
+    _id: user._id,
+    username: user.username,
+    count: logArr.length,
+    log: logArr
+  })
+}
+)
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)

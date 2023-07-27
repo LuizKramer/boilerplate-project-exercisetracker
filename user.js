@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema({
   description: String,
   duration: Number,
   date: String,
+  log: []
 })
 
 const user = mongoose.model("User", userSchema);
@@ -52,6 +53,12 @@ exports.updateUsers = (req) => {
   );
   return query;
 };
+
+exports.findById = (id) => {
+  const query = user.findById(id);
+  query instanceof mongoose.Query;
+  return query;
+}
 
 exports.getAllUsers = () => {
   const query = user.find({})
