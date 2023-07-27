@@ -14,16 +14,21 @@ const userSchema = new mongoose.Schema({
   description: String,
   duration: Number,
   date: String,
-  log: []
+  count: Number,
+  log: [{
+    description: String,
+    duration: Number,
+    date: String,
+  }]
 })
 
 const user = mongoose.model("User", userSchema);
 
-exports.createNewUser = (data , done) => {
+exports.createNewUser = (data, done) => {
   console.log(data.username)
   let newUser = new user({ username: data.username });
   try {
-    newUser.save().then( saveDoc => {
+    newUser.save().then(saveDoc => {
       saveDoc === newUser;
     });
     return newUser;
@@ -48,7 +53,14 @@ exports.updateUsers = (req) => {
     {
       description: req.body.description,
       duration: req.body.duration,
-      date: date
+      date: date,
+      $push: {
+        log: {
+          description: req.body.description,
+          duration: req.body.duration,
+          date: date
+        }
+      }
     }
   );
   return query;

@@ -57,12 +57,12 @@ app.get('/api/users', async (req, res) =>{
 
 app.get('/api/users/:_id/logs', async (req, res) => {
   
-  let user = await User.findById(req.params._id);
+  let user = await User.findById(req.params._id).select('-log._id');;
   return res.json({
     _id: user._id,
     username: user.username,
-    count: logArr.length,
-    log: logArr
+    count: user.log.length,
+    log: user.log
   })
 }
 )
